@@ -192,9 +192,9 @@ func (t *Twitch) gatherUserStats(user helix.User, streams []helix.Stream, acc te
 		return err
 	}
 
-	videosTotalViewers := 0
+	vtv := 0
 	for _, video := range videos {
-		videosTotalViewers = videosTotalViewers + video.ViewCount
+		vtv += video.ViewCount
 	}
 
 	var userStreams []helix.Stream
@@ -204,18 +204,18 @@ func (t *Twitch) gatherUserStats(user helix.User, streams []helix.Stream, acc te
 		}
 	}
 
-	streamsTotalViewers := 0
+	stv := 0
 	for _, stream := range userStreams {
-		streamsTotalViewers = streamsTotalViewers + stream.ViewerCount
+		stv += stream.ViewerCount
 	}
 
 	fields := map[string]interface{}{
 		"followers":             followers,
 		"following":             following,
 		"streams":               len(userStreams),
-		"streams_total_viewers": streamsTotalViewers,
+		"streams_total_viewers": stv,
 		"videos":                len(videos),
-		"videos_total_viewers":  videosTotalViewers,
+		"videos_total_viewers":  vtv,
 	}
 
 	acc.AddFields("twitch_user", fields, tags, now)
