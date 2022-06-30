@@ -1,4 +1,4 @@
-package youtube
+package twitch
 
 import (
 	_ "embed"
@@ -176,7 +176,7 @@ func (t *Twitch) gatherUsers(ids []int64, acc telegraf.Accumulator) error {
 
 func (t *Twitch) gatherUserStats(user helix.User, streams []helix.Stream, acc telegraf.Accumulator) error {
 	now := time.Now()
-	tags := getTags(user)
+	tags := getUserTags(user)
 
 	followers, err := t.getFollowers(user)
 	if err != nil {
@@ -271,18 +271,11 @@ func (t *Twitch) getVideos(user helix.User) ([]helix.Video, error) {
 	return videos, nil
 }
 
-func getTags(user helix.User) map[string]string {
+func getUserTags(user helix.User) map[string]string {
 	return map[string]string{
 		"display_name": user.DisplayName,
 		"id":           user.ID,
 		"login":        user.Login,
-	}
-}
-
-func getFields(user helix.User) map[string]interface{} {
-	return map[string]interface{}{
-		"followers": 0,
-		"following": 0,
 	}
 }
 
