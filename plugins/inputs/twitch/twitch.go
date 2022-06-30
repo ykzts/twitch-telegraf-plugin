@@ -2,7 +2,6 @@ package twitch
 
 import (
 	_ "embed"
-	"math"
 	"strconv"
 	"sync"
 	"time"
