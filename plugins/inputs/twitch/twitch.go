@@ -2,7 +2,6 @@ package twitch
 
 import (
 	_ "embed"
-	"math"
 	"strconv"
 	"sync"
 	"time"
@@ -11,6 +10,8 @@ import (
 	"github.com/influxdata/telegraf/plugins/inputs"
 	"github.com/nicklaw5/helix/v2"
 )
+
+const usersLimit = 100
 
 // DO NOT REMOVE THE NEXT TWO LINES! This is required to embed the sampleConfig data.
 //go:embed sample.conf
@@ -72,17 +73,15 @@ func (t *Twitch) Gather(acc telegraf.Accumulator) error {
 		t.twitchClient = twitchClient
 	}
 
-	limit := 100
-	count := int(math.Ceil(float64(len(t.Users)) / float64(limit)))
-
 	var wg sync.WaitGroup
-	wg.Add(count)
 
-	for i := 0; i < len(t.Users); i += limit {
-		last := i + limit
+	for i := 0; i < len(t.Users); i += usersLimit {
+		last := i + usersLimit
 		if last > len(t.Users) {
 			last = len(t.Users)
 		}
+		
+		wg.Add(1)
 
 		go func(ids []int64, acc telegraf.Accumulator) {
 			defer wg.Done()
