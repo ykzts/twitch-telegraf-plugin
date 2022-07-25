@@ -3,7 +3,7 @@ module github.com/inabagumi/twitch-telegraf-plugin
 go 1.18
 
 require (
-	github.com/influxdata/telegraf v1.23.2
+	github.com/influxdata/telegraf v1.23.3
 	github.com/nicklaw5/helix/v2 v2.5.0
 )
 
