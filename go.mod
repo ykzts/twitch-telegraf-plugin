@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/influxdata/telegraf v1.24.4
-	github.com/nicklaw5/helix/v2 v2.16.0
+	github.com/nicklaw5/helix/v2 v2.17.0
 )
 
 require (
